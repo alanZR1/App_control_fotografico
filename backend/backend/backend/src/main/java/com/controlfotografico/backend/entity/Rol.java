@@ -22,22 +22,13 @@ public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(
-        name = "id_rol"
-    )
+    @Column(name = "id_rol")
     private Long idRol;
 
-    @Column(
-        name = "nombre", 
-        nullable = false, 
-        unique = true, 
-        length = 50
-    )
+    @Column( name = "nombre", nullable = false, unique = true, length = 50)
     private String nombre;
 
-    @Column(
-        name = "descripcion"
-    )
+    @Column(name = "descripcion")
     private String descripcion;
 
 }
