@@ -36,9 +36,6 @@ public class Obra {
     @Column(name = "direccion", nullable = false)
     private String direccion;
 
-    @Column(name = "municipio", nullable = false, length = 100)
-    private String municipio;
-
     @Column(name = "latitud", nullable = false)
     private Double latitud;
 
