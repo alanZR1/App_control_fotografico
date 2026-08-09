@@ -8,7 +8,9 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.controlfotografico.backend.dto.FotografiaDTO;
 import com.controlfotografico.backend.entity.Fotografia;
 import com.controlfotografico.backend.entity.Obra;
 import com.controlfotografico.backend.entity.TipoFotografia;
@@ -29,10 +31,13 @@ public class FotografiaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Fotografia>> listar() {
-        return ResponseEntity.ok(
-                fotografiaService.listar()
-        );
+    public ResponseEntity<List<FotografiaDTO>> listar() {
+
+        List<FotografiaDTO> fotografias = fotografiaService.listar()
+        .stream()
+        .map(this::convertirADTO)
+        .toList();
+        return ResponseEntity.ok(fotografias);
     }
 
     @GetMapping("/{id}")
@@ -50,7 +55,7 @@ public class FotografiaController {
     }
 
     @PostMapping("/subir")
-    public ResponseEntity<Fotografia> subirFotografia(
+    public ResponseEntity<FotografiaDTO> subirFotografia(
 
             @RequestParam("imagen")
             MultipartFile imagen,
@@ -106,8 +111,25 @@ public class FotografiaController {
                         fotografia
                 );
 
-        return ResponseEntity.ok(guardada);
+        return ResponseEntity.ok(convertirADTO(guardada));
     }
+
+    private FotografiaDTO convertirADTO( Fotografia fotografia) { 
+
+        String urlImagen = null; 
+        
+        if (fotografia.getUrlImagen() != null) 
+        
+                { urlImagen = ServletUriComponentsBuilder .fromCurrentContextPath() 
+                        .path("/") 
+                        .path(fotografia.getUrlImagen()) 
+                        .toUriString(); 
+                } 
+        
+                return new FotografiaDTO( fotografia, urlImagen ); 
+        
+        }
+
 
     private Obra crearObra(Long id) {
 
@@ -133,3 +155,5 @@ public class FotografiaController {
         return tipo;
     }
 }
+
+
