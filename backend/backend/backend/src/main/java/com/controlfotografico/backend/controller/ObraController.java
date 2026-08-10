@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.controlfotografico.backend.dto.ObraDTO;
 import com.controlfotografico.backend.entity.Obra;
 import com.controlfotografico.backend.service.ObraService;
 
@@ -20,12 +21,18 @@ public class ObraController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Obra>> listar() {
-        return ResponseEntity.ok(obraService.listar());
+    public ResponseEntity<List<ObraDTO>> listar() {
+        List<ObraDTO> obras =
+                obraService.listar()
+                        .stream()
+                        .map(obra -> convertirADTO(obra))
+                        .toList();
+
+        return ResponseEntity.ok(obras);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Obra> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ObraDTO> buscarPorId(@PathVariable Long id) {
 
         Obra obra = obraService.buscarPorId(id);
 
@@ -33,7 +40,7 @@ public class ObraController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(obra);
+        return ResponseEntity.ok(convertirADTO(obra));
     }
 
     @PostMapping
@@ -61,5 +68,25 @@ public class ObraController {
         obraService.eliminar(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    private ObraDTO convertirADTO(Obra obra) {
+       Long idBeneficiario = null;
+
+       if (obra.getBeneficiario() != null) {
+            idBeneficiario = obra.getBeneficiario().getIdBeneficiario();
+        }
+
+        return new ObraDTO(
+                obra.getIdObra(),
+                obra.getNombre(),
+                obra.getDescripcion(),
+                obra.getDireccion(),
+                obra.getLatitud(),
+                obra.getLongitud(),
+                obra.getRadioPermitido(),
+                obra.getEstatus(),
+                idBeneficiario
+        );
     }
 }

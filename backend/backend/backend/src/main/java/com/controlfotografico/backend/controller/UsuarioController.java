@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.controlfotografico.backend.dto.UsuarioDTO;
 import com.controlfotografico.backend.entity.Usuario;
 import com.controlfotografico.backend.service.UsuarioService;
 
@@ -20,12 +21,18 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listar() {
-        return ResponseEntity.ok(usuarioService.listar());
+    public ResponseEntity<List<UsuarioDTO>> listar() {
+        List<UsuarioDTO> usuarios =
+                usuarioService.listar()
+                        .stream()
+                        .map(usuario -> convertirADTO(usuario))
+                        .toList();
+
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Long id) {
 
         Usuario usuario = usuarioService.buscarPorId(id);
 
@@ -33,7 +40,7 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(convertirADTO(usuario));
     }
 
     @PostMapping
@@ -61,5 +68,28 @@ public class UsuarioController {
         usuarioService.eliminar(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    private UsuarioDTO convertirADTO(Usuario usuario) {
+        Long idRol = null;
+        Long idObra = null;
+        
+        if (usuario.getRol() != null) {
+        idRol = usuario.getRol().getIdRol();
+        }
+
+        if (usuario.getObra() != null) {
+        idObra = usuario.getObra().getIdObra();
+        }
+        
+        return new UsuarioDTO(
+            usuario.getIdUsuario(),
+            usuario.getNombre(),
+            usuario.getCorreo(),
+            usuario.getTelefono(),
+            usuario.getActivo(),
+            idRol,
+            idObra
+        );
     }
 }

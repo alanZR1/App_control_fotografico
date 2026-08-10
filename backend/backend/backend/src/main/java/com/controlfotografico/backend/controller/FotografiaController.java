@@ -41,7 +41,7 @@ public class FotografiaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fotografia> buscarPorId(
+    public ResponseEntity<FotografiaDTO> buscarPorId(
             @PathVariable UUID id) {
 
         Fotografia fotografia =
@@ -51,7 +51,7 @@ public class FotografiaController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(fotografia);
+        return ResponseEntity.ok(convertirADTO(fotografia));
     }
 
     @PostMapping("/subir")
