@@ -3,11 +3,14 @@ package com.controlfotografico.backend.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.controlfotografico.backend.dto.LoginRequest;
+import com.controlfotografico.backend.dto.LoginResponse;
 import com.controlfotografico.backend.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
+
 public class AuthController {
 
     private final AuthService authService;
@@ -17,12 +20,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
-            @RequestParam String correo,
-            @RequestParam String password) {
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(
-                authService.login(correo, password)
+                authService.login(request)
         );
     }
 }

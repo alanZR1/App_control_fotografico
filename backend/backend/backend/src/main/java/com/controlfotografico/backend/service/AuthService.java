@@ -1,7 +1,10 @@
 package com.controlfotografico.backend.service;
 
+import com.controlfotografico.backend.dto.LoginRequest;
+import com.controlfotografico.backend.dto.LoginResponse;
+
 public interface AuthService {
 
-    String login(String correo, String password);
+    LoginResponse login(LoginRequest request);
 
 }
