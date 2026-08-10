@@ -1,5 +1,7 @@
 package com.controlfotografico.backend.dto;
 
+import com.controlfotografico.backend.entity.Obra;
+
 public class ObraDTO {
 
     private Long idObra;
@@ -11,30 +13,27 @@ public class ObraDTO {
     private Integer radioPermitido;
     private String estatus;
     private Long idBeneficiario;
+    private String nombreBeneficiario;
 
-    public ObraDTO() {
-    }
 
-    public ObraDTO(
-            Long idObra,
-            String nombre,
-            String descripcion,
-            String direccion,
-            Double latitud,
-            Double longitud,
-            Integer radioPermitido,
-            String estatus,
-            Long idBeneficiario) {
+    public ObraDTO(Obra obra) {
 
-        this.idObra = idObra;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.direccion = direccion;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.radioPermitido = radioPermitido;
-        this.estatus = estatus;
-        this.idBeneficiario = idBeneficiario;
+        this.idObra = obra.getIdObra();
+        this.nombre = obra.getNombre();
+        this.descripcion = obra.getDescripcion();
+        this.direccion = obra.getDireccion();
+        this.latitud = obra.getLatitud();
+        this.longitud = obra.getLongitud();
+        this.radioPermitido = obra.getRadioPermitido();
+        this.estatus = obra.getEstatus();
+
+        if (obra.getBeneficiario() != null) {
+            
+            this.idBeneficiario = obra.getBeneficiario().getIdBeneficiario();
+        
+            this.nombreBeneficiario = obra.getBeneficiario().getNombre();
+        }
+        
     }
 
     public Long getIdObra() {
@@ -71,5 +70,9 @@ public class ObraDTO {
 
     public Long getIdBeneficiario() {
         return idBeneficiario;
+    }
+
+    public String getNombreBeneficiario() {
+        return nombreBeneficiario;
     }
 }

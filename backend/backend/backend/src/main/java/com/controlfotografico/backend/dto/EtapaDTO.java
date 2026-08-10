@@ -1,22 +1,17 @@
 package com.controlfotografico.backend.dto;
 
+import com.controlfotografico.backend.entity.Etapa;
+
 public class EtapaDTO {
 
     private Long idEtapa;
     private String nombre;
     private Integer orden;
 
-    public EtapaDTO() {
-    }
-
-    public EtapaDTO(
-            Long idEtapa,
-            String nombre,
-            Integer orden) {
-
-        this.idEtapa = idEtapa;
-        this.nombre = nombre;
-        this.orden = orden;
+    public EtapaDTO(Etapa etapa) {
+        this.idEtapa = etapa.getIdEtapa();
+        this.nombre = etapa.getNombre();
+        this.orden = etapa.getOrden();
     }
 
     public Long getIdEtapa() {

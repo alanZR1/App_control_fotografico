@@ -1,5 +1,7 @@
 package com.controlfotografico.backend.dto;
 
+import com.controlfotografico.backend.entity.Usuario;
+
 public class UsuarioDTO {
 
     private Long idUsuario;
@@ -7,28 +9,31 @@ public class UsuarioDTO {
     private String correo;
     private String telefono;
     private Boolean activo;
+
     private Long idRol;
+    private String nombreRol;
+
     private Long idObra;
+    private String nombreObra;
 
-    public UsuarioDTO() {
-    }
 
-    public UsuarioDTO(
-            Long idUsuario,
-            String nombre,
-            String correo,
-            String telefono,
-            Boolean activo,
-            Long idRol,
-            Long idObra) {
+    public UsuarioDTO(Usuario usuario) {
 
-        this.idUsuario = idUsuario;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.activo = activo;
-        this.idRol = idRol;
-        this.idObra = idObra;
+        this.idUsuario = usuario.getIdUsuario();
+        this.nombre = usuario.getNombre();
+        this.correo = usuario.getCorreo();
+        this.telefono = usuario.getTelefono();
+        this.activo = usuario.getActivo();
+        
+        if (usuario.getRol() != null) {
+            this.idRol = usuario.getRol().getIdRol();
+            this.nombreRol = usuario.getRol().getNombre();
+        }
+
+        if (usuario.getObra() != null) {
+            this.idObra = usuario.getObra().getIdObra();
+            this.nombreObra = usuario.getObra().getNombre();
+        }
     }
 
     public Long getIdUsuario() {
@@ -55,7 +60,15 @@ public class UsuarioDTO {
         return idRol;
     }
 
+    public String getNombreRol() {
+        return nombreRol;
+    }
+
     public Long getIdObra() {
         return idObra;
+    }
+
+    public String getNombreObra() {
+        return nombreObra;
     }
 }
