@@ -32,7 +32,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable("id") Long id) {
 
         Usuario usuario = usuarioService.buscarPorId(id);
 
@@ -53,7 +53,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO> actualizar(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody Usuario usuario) {
 
         Usuario actualizado = usuarioService.actualizar(id, usuario);

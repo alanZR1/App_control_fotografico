@@ -32,7 +32,7 @@ public class ObraController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ObraDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ObraDTO> buscarPorId(@PathVariable("id") Long id) {
 
         Obra obra = obraService.buscarPorId(id);
 
@@ -52,7 +52,7 @@ public class ObraController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ObraDTO> actualizar(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody Obra obra) {
 
         Obra actualizada = obraService.actualizar(id, obra);

@@ -42,7 +42,7 @@ public class FotografiaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<FotografiaDTO> buscarPorId(
-            @PathVariable UUID id) {
+            @PathVariable("id") UUID id) {
 
         Fotografia fotografia =
                 fotografiaService.buscarPorId(id);
