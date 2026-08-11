@@ -16,6 +16,8 @@ public class UsuarioDTO {
     private Long idObra;
     private String nombreObra;
 
+    public UsuarioDTO() {
+    }
 
     public UsuarioDTO(Usuario usuario) {
 

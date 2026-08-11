@@ -8,6 +8,9 @@ public class EtapaDTO {
     private String nombre;
     private Integer orden;
 
+    public EtapaDTO() {
+    }
+    
     public EtapaDTO(Etapa etapa) {
         this.idEtapa = etapa.getIdEtapa();
         this.nombre = etapa.getNombre();

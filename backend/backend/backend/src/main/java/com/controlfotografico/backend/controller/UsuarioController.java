@@ -44,12 +44,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> guardar(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.guardar(usuario));
+    public ResponseEntity<UsuarioDTO> guardar(@RequestBody Usuario usuario) {
+        
+        Usuario guardado = usuarioService.guardar(usuario);
+
+        return ResponseEntity.ok( new UsuarioDTO(guardado));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> actualizar(
+    public ResponseEntity<UsuarioDTO> actualizar(
             @PathVariable Long id,
             @RequestBody Usuario usuario) {
 
@@ -59,7 +62,7 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(actualizado);
+        return ResponseEntity.ok(new UsuarioDTO(actualizado));
     }
 
     @DeleteMapping("/{id}")
@@ -71,25 +74,7 @@ public class UsuarioController {
     }
 
     private UsuarioDTO convertirADTO(Usuario usuario) {
-        Long idRol = null;
-        Long idObra = null;
         
-        if (usuario.getRol() != null) {
-        idRol = usuario.getRol().getIdRol();
-        }
-
-        if (usuario.getObra() != null) {
-        idObra = usuario.getObra().getIdObra();
-        }
-        
-        return new UsuarioDTO(
-            usuario.getIdUsuario(),
-            usuario.getNombre(),
-            usuario.getCorreo(),
-            usuario.getTelefono(),
-            usuario.getActivo(),
-            idRol,
-            idObra
-        );
+        return new UsuarioDTO(usuario);
     }
 }

@@ -25,6 +25,9 @@ public class FotografiaDTO {
 
     private String estatus;
 
+    public FotografiaDTO() {
+    }
+
     public FotografiaDTO(
             Fotografia fotografia,
             String urlImagen) {

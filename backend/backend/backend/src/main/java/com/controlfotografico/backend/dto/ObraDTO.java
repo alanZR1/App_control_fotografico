@@ -15,6 +15,9 @@ public class ObraDTO {
     private Long idBeneficiario;
     private String nombreBeneficiario;
 
+    public ObraDTO() {
+    }
+
 
     public ObraDTO(Obra obra) {
 

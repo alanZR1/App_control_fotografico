@@ -72,11 +72,7 @@ public class CatalogoController {
 
     private EtapaDTO convertirEtapaDTO(Etapa etapa) {
 
-        return new EtapaDTO(
-                etapa.getIdEtapa(),
-                etapa.getNombre(),
-                etapa.getOrden()
-        );
+        return new EtapaDTO(etapa);
     }
 
     private TipoFotografiaDTO convertirTipoDTO(

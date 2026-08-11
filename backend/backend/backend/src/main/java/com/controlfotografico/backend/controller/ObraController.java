@@ -44,12 +44,14 @@ public class ObraController {
     }
 
     @PostMapping
-    public ResponseEntity<Obra> guardar(@RequestBody Obra obra) {
-        return ResponseEntity.ok(obraService.guardar(obra));
+    public ResponseEntity<ObraDTO> guardar(@RequestBody Obra obra) {
+        Obra obraGuardada = obraService.guardar(obra);
+
+        return ResponseEntity.ok(convertirADTO(obraGuardada));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Obra> actualizar(
+    public ResponseEntity<ObraDTO> actualizar(
             @PathVariable Long id,
             @RequestBody Obra obra) {
 
@@ -59,7 +61,7 @@ public class ObraController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(actualizada);
+        return ResponseEntity.ok(convertirADTO(actualizada));
     }
 
     @DeleteMapping("/{id}")
@@ -71,22 +73,7 @@ public class ObraController {
     }
 
     private ObraDTO convertirADTO(Obra obra) {
-       Long idBeneficiario = null;
 
-       if (obra.getBeneficiario() != null) {
-            idBeneficiario = obra.getBeneficiario().getIdBeneficiario();
-        }
-
-        return new ObraDTO(
-                obra.getIdObra(),
-                obra.getNombre(),
-                obra.getDescripcion(),
-                obra.getDireccion(),
-                obra.getLatitud(),
-                obra.getLongitud(),
-                obra.getRadioPermitido(),
-                obra.getEstatus(),
-                idBeneficiario
-        );
+        return new ObraDTO(obra);
     }
 }
