@@ -1,0 +1,72 @@
+
+
+services:
+  # ===========================================
+  # PostgreSQL Database
+  # ===========================================
+  db:
+    image: postgres:17
+    container_name: database_fotographic_control
+    restart: unless-stopped
+    command: ["postgres", "-c", "ssl=off"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: kira123
+      POSTGRES_DB: control_fotografico
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persistent data storage
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d control_fotografico"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - fotographic_control_network
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fotographic_control_backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - fotographic_control_network
+    # Required for host.docker.internal to work on Linux
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+# ===========================================
+# Networks
+# ===========================================
+networks:
+  fotographic_control_network:
+    driver: bridge
+    name: fotographic_control_network
+
+# ===========================================
+# Volumes
+# ===========================================
+volumes:
+  postgres_data:
+    name: hotel_postgres_data
+  whatsapp_auth:
+    name: hotel_whatsapp_auth
+  # Uncomment if using containerized Ollama
+  # ollama_data:
+  #   name: hotel_ollama_data
