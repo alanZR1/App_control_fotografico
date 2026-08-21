@@ -1,3 +1,0 @@
-En esta carpeta se almacenan los archivos del front 
-si tienes documentacion sobre esta parte 
-metela en la carpeta docs
