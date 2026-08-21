@@ -6,7 +6,7 @@ services:
   # ===========================================
   db:
     image: postgres:17
-    container_name: database_fotographic_control
+    container_name: database_photographic_control
     restart: unless-stopped
     command: ["postgres", "-c", "ssl=off"]
     environment:
@@ -25,14 +25,14 @@ services:
       retries: 5
       start_period: 10s
     networks:
-      - fotographic_control_network
+      - photographic_control_network
 
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: fotographic_control_backend
+    container_name: photographic_control_backend
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -46,7 +46,7 @@ services:
       retries: 3
       start_period: 30s
     networks:
-      - fotographic_control_network
+      - photographic_control_network
     # Required for host.docker.internal to work on Linux
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -55,18 +55,13 @@ services:
 # Networks
 # ===========================================
 networks:
-  fotographic_control_network:
+  photographic_control_network:
     driver: bridge
-    name: fotographic_control_network
+    name: photographic_control_network
 
 # ===========================================
 # Volumes
 # ===========================================
 volumes:
   postgres_data:
-    name: hotel_postgres_data
-  whatsapp_auth:
-    name: hotel_whatsapp_auth
-  # Uncomment if using containerized Ollama
-  # ollama_data:
-  #   name: hotel_ollama_data
+    name: photographic_postgres_data
